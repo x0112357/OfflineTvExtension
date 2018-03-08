@@ -79,7 +79,7 @@ function updateModelTwitch(info) {
     for(var i = 0; i < info.streams.length; i++) {
         var index = getTwitchIndex(info.streams[i].channel.name);
         members[index].viewers = info.streams[i].viewers;
-        $($(".member")[index]).find(".twitchField").html("<a target='_blank' style='text-decoration:none;font-family:arial;color:white;font-weight:bold;' href='http://twitch.tv/"+members[index].twitchId+"'><img style='resize:both;height:20px;position:relative;top:5px;margin-right:2px;' src='./Media/Icons/twitch.png'>Live</a><span style='display:inline-block;height:10px;width:10px;border-radius:100%;background-color:red;margin-left:5px;'> </span> <span class='glyphicon openModal glyphicon-share'></span>");
+        $($(".member")[index]).find(".twitchField").html("<a target='_blank' style='text-decoration:none;font-family:arial;color:white;font-weight:bold;' href='http://twitch.tv/"+members[index].twitchId+"'><img style='resize:both;height:20px;position:relative;top:0px;margin-right:2px;' src='./Media/Icons/twitch.png'>Live</a><span style='display:inline-block;height:10px;width:10px;border-radius:100%;background-color:red;margin-left:5px;'> </span> <span class='glyphicon openModal glyphicon-share'></span>");
         $($(".member")[index]).find(".twitchField").addClass("active");
         if(!($($(".member")[index]).hasClass("friend"))) {
             pushItToTop(index);
@@ -124,7 +124,7 @@ xmlhttp.send();
 function renderUserInfo() {
     for(var i = 0; i < members.length; i++){ 
         var row = jQuery("<div>", {
-          style:"width:250px;heigth:70px;margin-top:5px;",
+          style:"width:280px;heigth:70px;margin-top:5px;",
           class:"member",
           "data-channelId": members[i].id,
           "twitch-id": members[i].twitchId
