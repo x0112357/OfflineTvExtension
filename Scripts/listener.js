@@ -31,7 +31,7 @@ for(var i = 0; i < members.length-1; i++) {
 }
 membersString += members[members.length-1].twitchId;
 
-var url = "https://api.twitch.tv/kraken/streams/?channel="+membersString+"?m="+Math.random();
+var url = "https://api.twitch.tv/kraken/streams/?channel="+membersString+"&m="+Math.random();
 
 xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {

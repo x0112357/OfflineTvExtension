@@ -2,6 +2,8 @@ window.onload = function() {
     showUserInfo();
 };
 
+var xmlhttp = new XMLHttpRequest();
+
 var members = [
     {name:"Scarra", id:"UCan_L4XHfSbCKaTCcntyLTQ", twitchId:"scarra"},
     {name:"Pokimane", id:"UChXKjLEzAB1K7EZQey7Fm1Q", twitchId:"pokimane"},
@@ -22,7 +24,31 @@ var members = [
 
 ];
 
-var xmlhttp = new XMLHttpRequest();
+function loadPictures(index) {
+
+var url = "https://api.twitch.tv/kraken/channels/"+members[index].twitchId;
+
+xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        var stream = JSON.parse(this.responseText);
+        if(index < members.length-1) {
+            setPictureModel(index, stream.logo);
+            index++;
+            loadPictures(index);
+        } else {
+            setPictureModel(index, stream.logo);
+            showUserInfo();
+        }
+    }
+}
+xmlhttp.open("GET",url,true);
+xmlhttp.setRequestHeader("Client-ID", "qvirwe4mbsponra5zrep3v00ogfkjf");
+xmlhttp.send();
+}
+
+function setPictureModel(index, url) {
+    members[index].image = url;
+}
 
 function showUserInfo(){
 
@@ -68,7 +94,7 @@ function getIndex(info, channelId){
 function updateModel(info) {
     for(var i = 0; i < members.length; i++){
         var index = getIndex(info,members[i].id);
-        if(!members[i].image) {
+        if(members[i].id) {
             members[i].image = info.items[index].snippet.thumbnails.high.url;
             members[i].subCount = info.items[index].statistics.subscriberCount;
         }
@@ -107,7 +133,7 @@ for(var i = 0; i < members.length-1; i++) {
 }
 membersString += members[members.length-1].twitchId;
 
-var url = "https://api.twitch.tv/kraken/streams/?channel="+membersString
+var url = "https://api.twitch.tv/kraken/streams/?channel="+membersString;
 
 xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -122,6 +148,7 @@ xmlhttp.send();
 }
 
 function renderUserInfo() {
+    $("#loading").hide();
     for(var i = 0; i < members.length; i++){ 
         var row = jQuery("<div>", {
           style:"width:280px;heigth:70px;margin-top:5px;",
@@ -143,7 +170,7 @@ function renderUserInfo() {
 
        if(members[i].id != null) {
             var subs = jQuery("<div>", {
-                html: "<a style='text-decoration:none;font-family:arial;color:white' target='_blank' href='http://youtube.com/channel/"+members[i].id+"'> <img style='resize:both;height:10px;position:relative;top:0px;margin-right:5px;' src='./Media/Icons/youtube.png'>"+members[i].subCount+"</a>",
+                html: "<span style='display:inline-block;cursor:pointer;' class='openLastVideo'> <img style='resize:both;height:10px;position:relative;top:0px;margin-right:5px;' src='./Media/Icons/youtube.png'>"+members[i].subCount+"</span>",
                 style: "display:inline-block;margin-left:10px;position:relative;bottom:20px;",
                 class: "youtubeDiv"
             }).appendTo(row);
@@ -167,6 +194,26 @@ function renderUserInfo() {
     $(".openModal").click(function(event){
         openModal(event);
     });
+    $(".openLastVideo").click(function(event){
+        openLastVideo(event);
+    });
+}
+
+function openLastVideo(event) {
+
+var channel = $(event.target).closest(".member").attr("data-channelid");
+var url = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId="+channel+"&maxResults=1&order=date&type=video&key=AIzaSyAL50nHkaW2PQT_2LBmjnaZcaXl2bTzVG0";
+
+xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        var video = JSON.parse(this.responseText);
+        var url = "https://www.youtube.com/watch?v="+video.items[0].id.videoId;
+        window.open(url);
+    }
+}
+xmlhttp.open("GET",url,true);
+xmlhttp.send();
+
 }
 
 function openModal(event) {
