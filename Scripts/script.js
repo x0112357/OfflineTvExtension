@@ -20,7 +20,8 @@ var members = [
     {name:"Janet", id:"UCdH7fwkQ5RGVAMIAN2ufm4Q", twitchId:"xchocobars", friends: "true"},
     {name:"Jamie", id:"UCGkquZAQRiSoWTrHufGKgeg", twitchId: "igumdrop", friends: "true"},
     {name:"Aria", id:"UCitxA9Sa_GxxGSqNJEWRbuA", twitchId:"ariasaki", friends:"true"},
-    {name:"Fuslie", id:"UCujyjxsq5FZNVnQro51zKSQ", twitchId: "fuslie", friends: "true"}
+    {name:"Fuslie", id:"UCujyjxsq5FZNVnQro51zKSQ", twitchId: "fuslie", friends: "true"},
+    {name:"Yellowpaco", id:"UC0WpDW_SigANjRWBI1USgYw", twitchId:"yellowpaco", friends: "true"}
 
 ];
 
@@ -73,9 +74,28 @@ xmlhttp.send();
 }
 
 function getTwitchIndex(twitchId) {
-    for(var i = 0; i < $(".member").length; i++){
-        if($($(".member")[i]).attr("twitch-id") == twitchId) {
-            return i;
+    var model = $(".member");
+    var index = 0;
+    for(var i = 0; i < model.length; i++){
+        if($(model[i]).attr("twitch-id") == twitchId) {
+            index = i;
+            break;
+        }
+    }
+    var classId = null;
+    if($(model[index]).hasClass("friend")) {
+        model = $("#memberFriends").find(".member");
+        for(var i = 0; i < model.length; i++){
+            if($(model[i]).attr("twitch-id") == twitchId) {
+                return {model:model[i],index:i};
+            }
+        }
+    } else {
+        model = $("#membersList").find(".member");
+        for(var i = 0; i < model.length; i++){
+            if($(model[i]).attr("twitch-id") == twitchId) {
+                return {model:model[i],index:i};
+            }
         }
     }
     return 0;
@@ -101,14 +121,27 @@ function updateModel(info) {
     }
 }
 
+function getIndexForTwitch(name) {
+    for(var i = 0; i < members.length; i++) {
+        if(members[i].twitchId == name) {
+            return i;
+            break;
+        }
+    }
+    return 0;
+}
+
 function updateModelTwitch(info) {
     for(var i = 0; i < info.streams.length; i++) {
-        var index = getTwitchIndex(info.streams[i].channel.name);
-        members[index].viewers = info.streams[i].viewers;
-        $($(".member")[index]).find(".twitchField").html("<a target='_blank' style='text-decoration:none;font-family:arial;color:white;font-weight:bold;' href='http://twitch.tv/"+members[index].twitchId+"'><img style='resize:both;height:20px;position:relative;top:0px;margin-right:2px;' src='./Media/Icons/twitch.png'>Live</a><span style='display:inline-block;height:10px;width:10px;border-radius:100%;background-color:red;margin-left:5px;'> </span> <span class='glyphicon openModal glyphicon-share'></span>");
-        $($(".member")[index]).find(".twitchField").addClass("active");
-        if(!($($(".member")[index]).hasClass("friend"))) {
-            pushItToTop(index);
+        var model = getTwitchIndex(info.streams[i].channel.name);
+        var index = getIndexForTwitch(info.streams[i].channel.name);
+        $(model.model).find(".twitchField").html("<a target='_blank' style='text-decoration:none;font-family:arial;color:white;font-weight:bold;' href='http://twitch.tv/"+members[index].twitchId+"'><img style='resize:both;height:20px;position:relative;top:0px;margin-right:2px;' src='./Media/Icons/twitch.png'>Live</a><span style='display:inline-block;height:10px;width:10px;border-radius:100%;background-color:red;margin-left:5px;'> </span> <span class='glyphicon openModal glyphicon-share'></span>");
+        $(model.model).find(".twitchField").addClass("active");
+        $(model.model).addClass("active");
+        if(!($(model.model).hasClass("friend"))) {
+            pushItToTop(model.index, "#membersList");
+        } else {
+            pushItToTop(model.index, "#memberFriends");
         }
     }
     $(".openModal").click(function(event){
@@ -116,10 +149,15 @@ function updateModelTwitch(info) {
     });
 }
 
-function pushItToTop(index) {
-    for(var i = 0; i < $(".member").length; i++){
-        if(!($($(".member")[i]).find(".twitchField").hasClass("active")) && !$($(".member")[i]).hasClass("friends")) {
-            $($(".member")[index]).insertBefore($($(".member")[i]));
+function pushItToTop(index, classId) {
+    var model = $(classId).find(".member");
+    //update the tab counter
+    var tab = $($("[href='"+classId+"']"));
+    var active = $(classId).find(".member.active").length;
+    tab.find(".counter").html(" ("+active+")");
+    for(var i = 0; i < model.length; i++){
+        if(!($(model[i]).find(".twitchField").hasClass("active"))) {
+            $(model[index]).insertBefore($(model[i]));
             break;
         }
     }
@@ -149,6 +187,7 @@ xmlhttp.send();
 
 function renderUserInfo() {
     $("#loading").hide();
+    $("#tabs").removeClass("hide");
     for(var i = 0; i < members.length; i++){ 
         var row = jQuery("<div>", {
           style:"width:280px;heigth:70px;margin-top:5px;",
@@ -166,6 +205,7 @@ function renderUserInfo() {
 
         var image = jQuery("<div>", {
                 style:"border-radius:5px;width:50px;height:50px;display:inline-block;background-image:url('"+members[i].image+"');background-size:cover;margin-left:5px;",
+                title:members[i].twitchId
         }).appendTo(row);
 
        if(members[i].id != null) {
@@ -247,4 +287,33 @@ xmlhttp.onreadystatechange = function() {
 xmlhttp.open("GET",url,true);
 xmlhttp.setRequestHeader("Client-ID", "qvirwe4mbsponra5zrep3v00ogfkjf");
 xmlhttp.send();
+}
+
+//test function to see more people online
+function testMultipleOnline(){
+    var info = {
+        streams:[
+            {channel:{
+                    name: members[0].twitchId
+                }  
+            },
+            {channel:{
+                    name: members[15].twitchId
+                }  
+            },
+            {channel:{
+                    name: members[2].twitchId
+                }  
+            }, 
+            {channel:{
+                    name: members[14].twitchId
+                }  
+            },
+            {channel:{
+                    name: members[1].twitchId
+                }  
+            }
+        ]
+    };
+    updateModelTwitch(info);
 }

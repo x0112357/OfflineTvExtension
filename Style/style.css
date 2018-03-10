@@ -1,0 +1,26 @@
+body {
+	background-color: #262626;
+	color:white;
+	font-family:Arial;
+}
+#loading {
+	width:150px;
+	text-align:center;
+	margin-top:20px;
+}
+#tabs {
+	margin-top:5px;
+}
+/*override bootstrap navbar styling*/
+#tabs>li>a {
+	border-radius:0;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+	border:1px solid rgba(255,255,255,0.5);
+	border-bottom:1px solid #262626;
+	background-color:#262626;
+	color:white;
+}
+a {
+	color:rgba(255,255,255,0.5);
+}

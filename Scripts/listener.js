@@ -14,7 +14,8 @@ var members = [
     {name:"Janet", id:"UCdH7fwkQ5RGVAMIAN2ufm4Q", twitchId:"xchocobars", friends: "true"},
     {name:"Jamie", id:"UCGkquZAQRiSoWTrHufGKgeg", twitchId: "igumdrop", friends: "true"},
     {name:"Aria", id:"UCitxA9Sa_GxxGSqNJEWRbuA", twitchId:"ariasaki", friends:"true"},
-    {name:"Fuslie", id:"UCujyjxsq5FZNVnQro51zKSQ", twitchId: "fuslie", friends: "true"}
+    {name:"Fuslie", id:"UCujyjxsq5FZNVnQro51zKSQ", twitchId: "fuslie", friends: "true"},
+    {name:"Yellowpaco", id:"UC0WpDW_SigANjRWBI1USgYw", twitchId:"yellowpaco", friends: "true"}
 ];
 
 setInterval(function(){

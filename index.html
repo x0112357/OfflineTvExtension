@@ -6,24 +6,15 @@
 
 <title> OfflineTV Extension </title>
 
-<script src="./Scripts/jquery-3.3.1.min.js"></script>
-
-<script src="./Scripts/script.js" type="text/javaScript"> </script>
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<style>
-body {
-	background-color: #262626;
-	color:white;
-	font-family:Arial;
-}
-#loading {
-	width:150px;
-	text-align:center;
-	margin-top:20px;
-}
-</style>
+<link rel="stylesheet" href="./Style/style.css">
+
+<script src="./Scripts/jquery-3.3.1.min.js"></script>
+
+<script src="./Scripts/bootstrap.min.js"></script>
+
+<script src="./Scripts/script.js" type="text/javaScript"> </script>
 
 </head>
 
@@ -37,11 +28,20 @@ body {
 
 </div>
 
-<div id="membersList">
+<ul id="tabs" class="nav nav-tabs hide">
+  <li class="active"><a data-toggle="tab" href="#membersList">OfflineTV<span class='counter'> </span></a></li>
+  <li><a data-toggle="tab" href="#memberFriends">Friends<span class='counter'> </span></a></li>
+</ul>
 
-</div>
+<div class="tab-content">
 
-<div id="memberFriends">
+	<div id="membersList" class="tab-pane fade in active">
+
+	</div>
+
+	<div id="memberFriends" class="tab-pane fade">
+
+	</div>
 
 </div>
 
