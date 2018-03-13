@@ -1,5 +1,7 @@
 window.onload = function() {
     showUserInfo();
+    //initializing tooltips
+    $('[data-toggle="tooltip"]').tooltip();
 };
 
 var xmlhttp = new XMLHttpRequest();
@@ -22,7 +24,6 @@ var members = [
     {name:"Aria", id:"UCitxA9Sa_GxxGSqNJEWRbuA", twitchId:"ariasaki", friends:"true"},
     {name:"Fuslie", id:"UCujyjxsq5FZNVnQro51zKSQ", twitchId: "fuslie", friends: "true"},
     {name:"Yellowpaco", id:"UC0WpDW_SigANjRWBI1USgYw", twitchId:"yellowpaco", friends: "true"}
-
 ];
 
 function loadPictures(index) {
@@ -135,7 +136,19 @@ function updateModelTwitch(info) {
     for(var i = 0; i < info.streams.length; i++) {
         var model = getTwitchIndex(info.streams[i].channel.name);
         var index = getIndexForTwitch(info.streams[i].channel.name);
-        $(model.model).find(".twitchField").html("<a target='_blank' style='text-decoration:none;font-family:arial;color:white;font-weight:bold;' href='http://twitch.tv/"+members[index].twitchId+"'><img style='resize:both;height:20px;position:relative;top:0px;margin-right:2px;' src='./Media/Icons/twitch.png'>Live</a><span style='display:inline-block;height:10px;width:10px;border-radius:100%;background-color:red;margin-left:5px;'> </span> <span class='glyphicon openModal glyphicon-share'></span>");
+        var today = new Date();
+        var uptime = new Date(info.streams[i].created_at);
+        uptime = today.getTime() - uptime.getTime();
+        var hours = Math.floor(uptime/3600000);
+        if(hours < 10) {
+            hours = "0"+hours;
+        }
+        uptime = uptime - (hours*3600000);
+        var min = Math.floor(uptime/60000);
+        if(min < 10) {
+            min = "0"+min;
+        }
+        $(model.model).find(".twitchField").html("<a data-toggle='tooltip' data-placement='left' title='Uptime "+hours+":"+min+"' target='_blank' style='text-decoration:none;font-family:arial;color:white;font-weight:bold;' href='http://twitch.tv/"+members[index].twitchId+"'><img style='resize:both;height:20px;position:relative;top:0px;margin-right:2px;' src='./Media/Icons/twitch.png'>Live</a><span style='display:inline-block;height:10px;width:10px;border-radius:100%;background-color:red;margin-left:5px;'> </span> <span class='glyphicon openModal glyphicon-share'></span>");
         $(model.model).find(".twitchField").addClass("active");
         $(model.model).addClass("active");
         if(!($(model.model).hasClass("friend"))) {
@@ -147,6 +160,7 @@ function updateModelTwitch(info) {
     $(".openModal").click(function(event){
         openModal(event);
     });
+    $('[data-toggle="tooltip"]').tooltip(); 
 }
 
 function pushItToTop(index, classId) {
@@ -201,7 +215,7 @@ function renderUserInfo() {
         } else {
             row.appendTo("#memberFriends");
             row.addClass("friend");
-        }
+        } 
 
         var image = jQuery("<div>", {
                 style:"border-radius:5px;width:50px;height:50px;display:inline-block;background-image:url('"+members[i].image+"');background-size:cover;margin-left:5px;",
@@ -210,7 +224,7 @@ function renderUserInfo() {
 
        if(members[i].id != null) {
             var subs = jQuery("<div>", {
-                html: "<span style='display:inline-block;cursor:pointer;' class='openLastVideo'> <img style='resize:both;height:10px;position:relative;top:0px;margin-right:5px;' src='./Media/Icons/youtube.png'>"+members[i].subCount+"</span>",
+                html: "<span style='display:inline-block;cursor:pointer;' class='openLastVideo'> <a href='#' data-toggle='tooltip' data-placement='right' title='Subs "+members[i].subCount+"'> <img style='resize:both;height:10px;position:relative;top:0px;margin-right:5px;' src='./Media/Icons/youtube.png'> </a></span>",
                 style: "display:inline-block;margin-left:10px;position:relative;bottom:20px;",
                 class: "youtubeDiv"
             }).appendTo(row);

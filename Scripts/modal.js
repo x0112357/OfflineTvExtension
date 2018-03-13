@@ -31,7 +31,7 @@ function renderModal(channel) {
   	}).appendTo(body);
 
   	$(".removeModal").click(function(){
-  		closeModal();
+  		closeModal(event);
   	});
 
   	//Make the DIV element draggagle:
@@ -39,7 +39,7 @@ function renderModal(channel) {
   }
 }
 
-function closeModal() {
+function closeModal(event) {
 	$(event.target).closest(".twitchPopup").remove();
 }
 
@@ -52,6 +52,7 @@ function dragElement(elmnt) {
   }
 
   function dragMouseDown(e) {
+    e.preventDefault();
     e = e || window.event;
     pos3 = e.clientX;
     pos4 = e.clientY;
@@ -60,6 +61,7 @@ function dragElement(elmnt) {
   }
 
   function elementDrag(e) {
+    e.preventDefault();
     e = e || window.event;
     pos1 = pos3 - e.clientX;
     pos2 = pos4 - e.clientY;

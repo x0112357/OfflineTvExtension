@@ -24,3 +24,7 @@ body {
 a {
 	color:rgba(255,255,255,0.5);
 }
+.uptime {
+	display:inline-block;
+	margin-left:3px;
+}

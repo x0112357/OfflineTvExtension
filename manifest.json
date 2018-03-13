@@ -1,7 +1,7 @@
   {
     "name": "OfflineTV",
     "description" : "Know when your favorite streamers are live",
-    "version": "3.6",
+    "version": "3.7",
     "manifest_version": 2,
     "browser_action": {
       "default_popup": "index.html",
