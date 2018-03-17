@@ -7,23 +7,23 @@ window.onload = function() {
 var xmlhttp = new XMLHttpRequest();
 
 var members = [
-    {name:"Scarra", id:"UCan_L4XHfSbCKaTCcntyLTQ", twitchId:"scarra"},
-    {name:"Pokimane", id:"UChXKjLEzAB1K7EZQey7Fm1Q", twitchId:"pokimane"},
-    {name:"Lilypichu", id:"UCvWU1K29wCZ8j1NsXsRrKnA", twitchId:"lilypichu"},
-    {name:"Disguised Toast", id:"UCUT8RoNBTJvwW1iErP6-b-A", twitchId:"disguisedtoasths"},
-    {name:"Fedmyster", id:"UCOmXyEquWIIo1uAj_2LN4UA", twitchId:"fedmyster"},
-    {name:"Xell", id:"UCksmCymEjGvxXEkcRWR8wbQ", twitchId:"xell_stream"},
-    {name:"TheeMarkZ", id:"UCU74OVWGSmJqR1g6y-tgUHQ", twitchId:"theemarkz"},
-    {name:"Based Yoona", id:"UC8GNFT4yPKeSOzPgYmmikuw", twitchId:"based_yoona"},
-    {name:"Pecca", id:"UCHErZgBloHNYX6Uu_dsBVxg", twitchId:"peccapecca"},
-    {name:"Albert", id:"UCrDQW9kAElm707c5z6d5r7Q", twitchId: "sleightlymusical"},
-    {name:"Chris", id:null, twitchId:"chrischantor", image:"https://pbs.twimg.com/profile_images/925529875695378432/m1qkOYYA_400x400.jpg"},
-    {name:"Kimi", id:"UCqssxU4UBzijbdTH3r5Losw", twitchId:"angelskimi", friends: "true"},
-    {name:"Janet", id:"UCdH7fwkQ5RGVAMIAN2ufm4Q", twitchId:"xchocobars", friends: "true"},
-    {name:"Jamie", id:"UCGkquZAQRiSoWTrHufGKgeg", twitchId: "igumdrop", friends: "true"},
-    {name:"Aria", id:"UCitxA9Sa_GxxGSqNJEWRbuA", twitchId:"ariasaki", friends:"true"},
-    {name:"Fuslie", id:"UCujyjxsq5FZNVnQro51zKSQ", twitchId: "fuslie", friends: "true"},
-    {name:"Yellowpaco", id:"UC0WpDW_SigANjRWBI1USgYw", twitchId:"yellowpaco", friends: "true"}
+    {name:"Scarra", id:"UCan_L4XHfSbCKaTCcntyLTQ", twitchId:"scarra", twitter:"scarra"},
+    {name:"Pokimane", id:"UChXKjLEzAB1K7EZQey7Fm1Q", twitchId:"pokimane", twitter:"pokimanelol"},
+    {name:"Lilypichu", id:"UCvWU1K29wCZ8j1NsXsRrKnA", twitchId:"lilypichu", twitter:"lilypichu"},
+    {name:"Disguised Toast", id:"UCUT8RoNBTJvwW1iErP6-b-A", twitchId:"disguisedtoasths", twitter:"disguisedtoast"},
+    {name:"Fedmyster", id:"UCOmXyEquWIIo1uAj_2LN4UA", twitchId:"fedmyster", twitter:"fedmyster"},
+    {name:"Xell", id:"UCksmCymEjGvxXEkcRWR8wbQ", twitchId:"xell_stream", twitter:"xelltweets"},
+    {name:"TheeMarkZ", id:"UCU74OVWGSmJqR1g6y-tgUHQ", twitchId:"theemarkz", twitter:"theemarkz"},
+    {name:"Based Yoona", id:"UC8GNFT4yPKeSOzPgYmmikuw", twitchId:"based_yoona", twitter:"basedyoona"},
+    {name:"Pecca", id:"UCHErZgBloHNYX6Uu_dsBVxg", twitchId:"peccapecca", twitter:"peccapecca"},
+    {name:"Albert", id:"UCrDQW9kAElm707c5z6d5r7Q", twitchId: "sleightlymusical", twitter:"THEalbertchang"},
+    {name:"Chris", id:null, twitchId:"chrischantor", image:"https://pbs.twimg.com/profile_images/925529875695378432/m1qkOYYA_400x400.jpg", twitter: "chrischanto"},
+    {name:"Kimi", id:"UCqssxU4UBzijbdTH3r5Losw", twitchId:"angelskimi", friends: "true", twitter: "AngelsKimi"},
+    {name:"Janet", id:"UCdH7fwkQ5RGVAMIAN2ufm4Q", twitchId:"xchocobars", friends: "true", twitter: "xChocoBars"},
+    {name:"Jamie", id:"UCGkquZAQRiSoWTrHufGKgeg", twitchId: "igumdrop", friends: "true", twitter: "iGumdrop_"},
+    {name:"Aria", id:"UCitxA9Sa_GxxGSqNJEWRbuA", twitchId:"ariasaki", friends:"true", twitter: "ariasaki"},
+    {name:"Fuslie", id:"UCujyjxsq5FZNVnQro51zKSQ", twitchId: "fuslie", friends: "true", twitter: "fuslie"},
+    {name:"Yellowpaco", id:"UC0WpDW_SigANjRWBI1USgYw", twitchId:"yellowpaco", friends: "true", twitter: "yellowpaco"}
 ];
 
 function loadPictures(index) {
@@ -199,6 +199,38 @@ xmlhttp.setRequestHeader("Client-ID", "qvirwe4mbsponra5zrep3v00ogfkjf");
 xmlhttp.send();
 }
 
+function loadTweets(event) {
+
+var username = $(event.target).closest(".member").attr("twitter-id");
+
+var url = "https://exzerobots.com/offlineTV/lastTweet.php?username="+username;
+
+xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        var response = this.responseText.replace(/(\r\n\t|\n|\r\t)/gm,"");
+        var obj = JSON.parse(response);
+        
+        var mainClass = $("#twitter_"+username);
+        mainClass.html("");
+
+        var ahref = jQuery("<a>", {
+            style:"text-decoration:none;color:white;",
+            href: "https://twitter.com/"+username,
+            target: "_blank"
+        }).prependTo(mainClass);
+
+        var tweet = jQuery("<div>", {
+            style: "cursor:pointer",
+            class: "tweetBox",
+            html: obj[0].lastTweet
+        }).appendTo(ahref);
+    }
+}
+xmlhttp.open("GET",url,true);
+xmlhttp.send(); 
+
+}
+
 function renderUserInfo() {
     $("#loading").hide();
     $("#tabs").removeClass("hide");
@@ -207,11 +239,12 @@ function renderUserInfo() {
           style:"width:280px;heigth:70px;margin-top:5px;",
           class:"member",
           "data-channelId": members[i].id,
-          "twitch-id": members[i].twitchId
+          "twitch-id": members[i].twitchId,
+          "twitter-id": members[i].twitter
         });
 
         if(!members[i].friends) { 
-            row.appendTo("#membersList");  
+            row.appendTo("#membersList"); 
         } else {
             row.appendTo("#memberFriends");
             row.addClass("friend");
@@ -224,7 +257,7 @@ function renderUserInfo() {
 
        if(members[i].id != null) {
             var subs = jQuery("<div>", {
-                html: "<span style='display:inline-block;cursor:pointer;' class='openLastVideo'> <a href='#' data-toggle='tooltip' data-placement='right' title='Subs "+members[i].subCount+"'> <img style='resize:both;height:10px;position:relative;top:0px;margin-right:5px;' src='./Media/Icons/youtube.png'> </a></span>",
+                html: "<span style='display:inline-block;cursor:pointer;' class='openLastVideo'> <a href='#' data-toggle='tooltip' data-placement='right' title='Subs "+members[i].subCount+"'> <img style='resize:both;height:10px;position:relative;top:0px;margin-right:5px;' src='./Media/Icons/youtube.png'> </a></span> <span> <a data-toggle='collapse' class='openTwitter' data-target='#twitter_"+members[i].twitter+"'> <img style='resize:both;height:15px;position:relative;top:0px;margin-right:5px;margin-left:10px;' src='./Media/Icons/twitter.png'> </a> </span>",
                 style: "display:inline-block;margin-left:10px;position:relative;bottom:20px;",
                 class: "youtubeDiv"
             }).appendTo(row);
@@ -244,7 +277,22 @@ function renderUserInfo() {
         liveStatus.html("<a target='_blank' style='text-decoration:none;font-family:arial;color:grey' href='http://twitch.tv/"+members[i].twitchId+"'><img style='resize:both;height:20px;position:relative;top:0px;margin-right:5px;' src='./Media/Icons/twitch.png'>Offline</a> <span style='color:rgba(255,255,255,0.5);' class='glyphicon glyphicon-share openModal'></span>");
         liveStatus.appendTo(row);
 
+        var lastTweet = jQuery("<div>", {
+            style:"width:280px;height:70px;margin-top:5px;",
+            id:"twitter_"+members[i].twitter,
+            class: "collapse",
+        }).appendTo(row);
+
+        var loading = $(".progress.first").clone().removeClass("first");
+        loading.find(".progress-bar").removeClass("progress-bar-danger").addClass("progress-bar-info");
+        loading.appendTo(lastTweet);
+
     }
+
+    $(".openTwitter").click(function(event){
+        loadTweets(event);
+    });
+
     $(".openModal").click(function(event){
         openModal(event);
     });
