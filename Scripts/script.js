@@ -15,9 +15,9 @@ var members = [
     {name:"Xell", id:"UCksmCymEjGvxXEkcRWR8wbQ", twitchId:"xell_stream", twitter:"xelltweets"},
     {name:"TheeMarkZ", id:"UCU74OVWGSmJqR1g6y-tgUHQ", twitchId:"theemarkz", twitter:"theemarkz"},
     {name:"Based Yoona", id:"UC8GNFT4yPKeSOzPgYmmikuw", twitchId:"based_yoona", twitter:"basedyoona"},
+    {name:"Chris", id:null, twitchId:"chrischantor", image:"https://pbs.twimg.com/profile_images/925529875695378432/m1qkOYYA_400x400.jpg", twitter: "chrischanto"},
     {name:"Pecca", id:"UCHErZgBloHNYX6Uu_dsBVxg", twitchId:"peccapecca", twitter:"peccapecca"},
     {name:"Albert", id:"UCrDQW9kAElm707c5z6d5r7Q", twitchId: "sleightlymusical", twitter:"THEalbertchang"},
-    {name:"Chris", id:null, twitchId:"chrischantor", image:"https://pbs.twimg.com/profile_images/925529875695378432/m1qkOYYA_400x400.jpg", twitter: "chrischanto"},
     {name:"Kimi", id:"UCqssxU4UBzijbdTH3r5Losw", twitchId:"angelskimi", friends: "true", twitter: "AngelsKimi"},
     {name:"Janet", id:"UCdH7fwkQ5RGVAMIAN2ufm4Q", twitchId:"xchocobars", friends: "true", twitter: "xChocoBars"},
     {name:"Jamie", id:"UCGkquZAQRiSoWTrHufGKgeg", twitchId: "igumdrop", friends: "true", twitter: "iGumdrop_"},
@@ -264,7 +264,7 @@ function renderUserInfo() {
 
         } else {
             var subs = jQuery("<div>", {
-                html: "<img style='resize:both;height:10px;position:relative;top:0px;margin-right:5px;opacity:0.1;' src='./Media/Icons/youtube.png'> n/a",
+                html: "<img style='resize:both;height:10px;position:relative;top:0px;margin-right:5px;opacity:0.1;' src='./Media/Icons/youtube.png'><span> <a data-toggle='collapse' class='openTwitter' data-target='#twitter_"+members[i].twitter+"'> <img style='resize:both;height:15px;position:relative;top:0px;margin-right:5px;margin-left:10px;' src='./Media/Icons/twitter.png'> </a> </span> ",
                 style:"display:inline-block;margin-left:10px;position:relative;bottom:20px;",
                 class: "youtubeDiv"
             }).appendTo(row);
