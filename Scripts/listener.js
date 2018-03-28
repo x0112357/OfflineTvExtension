@@ -4,7 +4,7 @@ var members = [
     {name:"Lilypichu", id:"UCvWU1K29wCZ8j1NsXsRrKnA", twitchId:"lilypichu"},
     {name:"Disguised Toast", id:"UCUT8RoNBTJvwW1iErP6-b-A", twitchId:"disguisedtoasths"},
     {name:"Fedmyster", id:"UCOmXyEquWIIo1uAj_2LN4UA", twitchId:"fedmyster"},
-    {name:"Xell", id:"UCksmCymEjGvxXEkcRWR8wbQ", twitchId:"xell_stream"},
+    {name:"Xell", id:"UCksmCymEjGvxXEkcRWR8wbQ", twitchId:"xell"},
     {name:"TheeMarkZ", id:"UCU74OVWGSmJqR1g6y-tgUHQ", twitchId:"theemarkz"},
     {name:"Based Yoona", id:"UC8GNFT4yPKeSOzPgYmmikuw", twitchId:"based_yoona"},
     {name:"Pecca", id:"UCHErZgBloHNYX6Uu_dsBVxg", twitchId:"peccapecca"},

@@ -12,7 +12,7 @@ var members = [
     {name:"Lilypichu", id:"UCvWU1K29wCZ8j1NsXsRrKnA", twitchId:"lilypichu", twitter:"lilypichu"},
     {name:"Disguised Toast", id:"UCUT8RoNBTJvwW1iErP6-b-A", twitchId:"disguisedtoasths", twitter:"disguisedtoast"},
     {name:"Fedmyster", id:"UCOmXyEquWIIo1uAj_2LN4UA", twitchId:"fedmyster", twitter:"fedmyster"},
-    {name:"Xell", id:"UCksmCymEjGvxXEkcRWR8wbQ", twitchId:"xell_stream", twitter:"xelltweets"},
+    {name:"Xell", id:"UCksmCymEjGvxXEkcRWR8wbQ", twitchId:"xell", twitter:"xelltweets"},
     {name:"TheeMarkZ", id:"UCU74OVWGSmJqR1g6y-tgUHQ", twitchId:"theemarkz", twitter:"theemarkz"},
     {name:"Based Yoona", id:"UC8GNFT4yPKeSOzPgYmmikuw", twitchId:"based_yoona", twitter:"basedyoona"},
     {name:"Chris", id:null, twitchId:"chrischantor", image:"https://pbs.twimg.com/profile_images/925529875695378432/m1qkOYYA_400x400.jpg", twitter: "chrischanto"},
