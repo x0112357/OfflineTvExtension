@@ -2,6 +2,7 @@ body {
 	background-color: #262626;
 	color:white;
 	font-family:Arial;
+	width:322px;
 }
 #loading {
 	width:150px;
@@ -29,7 +30,7 @@ a {
 	margin-left:3px;
 }
 .tweetBox {
-	width:90%;
+	width:120%;
 	display:inline-block;
 	background-color:rgba(255,255,255,0.1);
 	margin-bottom:5px;
