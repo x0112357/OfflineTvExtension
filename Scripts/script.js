@@ -12,18 +12,21 @@ var members = [
     {name:"Lilypichu", id:"UCvWU1K29wCZ8j1NsXsRrKnA", twitchId:"lilypichu", twitter:"lilypichu"},
     {name:"Disguised Toast", id:"UCUT8RoNBTJvwW1iErP6-b-A", twitchId:"disguisedtoasths", twitter:"disguisedtoast"},
     {name:"Fedmyster", id:"UCOmXyEquWIIo1uAj_2LN4UA", twitchId:"fedmyster", twitter:"fedmyster"},
-    {name:"Xell", id:"UCksmCymEjGvxXEkcRWR8wbQ", twitchId:"xell", twitter:"xelltweets"},
-    {name:"TheeMarkZ", id:"UCU74OVWGSmJqR1g6y-tgUHQ", twitchId:"theemarkz", twitter:"theemarkz"},
+    {name:"Xell", id:"UCksmCymEjGvxXEkcRWR8wbQ", twitchId:"xell", twitter:"xelltweets", friends:"true"},
+    {name:"TheeMarkZ", id:"UCU74OVWGSmJqR1g6y-tgUHQ", twitchId:"theemarkz", twitter:"theemarkz", friends:"true"},
     {name:"Based Yoona", id:"UC8GNFT4yPKeSOzPgYmmikuw", twitchId:"based_yoona", twitter:"basedyoona"},
     {name:"Chris", id:null, twitchId:"chrischantor", image:"https://pbs.twimg.com/profile_images/925529875695378432/m1qkOYYA_400x400.jpg", twitter: "chrischanto"},
     {name:"Pecca", id:"UCHErZgBloHNYX6Uu_dsBVxg", twitchId:"peccapecca", twitter:"peccapecca"},
     {name:"Albert", id:"UCrDQW9kAElm707c5z6d5r7Q", twitchId: "sleightlymusical", twitter:"THEalbertchang"},
-    {name:"Kimi", id:"UCqssxU4UBzijbdTH3r5Losw", twitchId:"angelskimi", friends: "true", twitter: "AngelsKimi"},
+    {name:"Kimi", id:"UCqssxU4UBzijbdTH3r5Losw", twitchId:"angelskimi", justfriends: "true", twitter: "AngelsKimi"},
     {name:"Janet", id:"UCdH7fwkQ5RGVAMIAN2ufm4Q", twitchId:"xchocobars", friends: "true", twitter: "xChocoBars"},
-    {name:"Jamie", id:"UCGkquZAQRiSoWTrHufGKgeg", twitchId: "igumdrop", friends: "true", twitter: "iGumdrop_"},
+    {name:"Jamie", id:"UCGkquZAQRiSoWTrHufGKgeg", twitchId: "igumdrop", justfriends: "true", twitter: "iGumdrop_"},
     {name:"Aria", id:"UCitxA9Sa_GxxGSqNJEWRbuA", twitchId:"ariasaki", friends:"true", twitter: "ariasaki"},
-    {name:"Fuslie", id:"UCujyjxsq5FZNVnQro51zKSQ", twitchId: "fuslie", friends: "true", twitter: "fuslie"},
-    {name:"Yellowpaco", id:"UC0WpDW_SigANjRWBI1USgYw", twitchId:"yellowpaco", friends: "true", twitter: "yellowpaco"}
+    {name:"Fuslie", id:"UCujyjxsq5FZNVnQro51zKSQ", twitchId: "fuslie", justfriends: "true", twitter: "fuslie"},
+    {name:"Yellowpaco", id:"UC0WpDW_SigANjRWBI1USgYw", twitchId:"yellowpaco", friends: "true", twitter: "yellowpaco"},
+    {name:"BoxBox", id: "UCsY94ljKzTlXNueC2m3hf-A", image:"https://static-cdn.jtvnw.net/jtv_user_pictures/96b30bc4546e2f71-profile_image-70x70.jpeg", twitchId: "boxbox", justfriends:"true", twitter: "BoxBox"},
+    {name:"Edison", id: null, image:"https://static-cdn.jtvnw.net/jtv_user_pictures/7bc3f928-d053-469d-83be-d7e8c7a5fe1c-profile_image-70x70.png", twitchId: "tlsinn", justfriends:"true", twitter:"tlsinn"},
+    {name:"Zirene", id:"UC8ts_jqysnOF7_OZR-9YFrw", twitchId:"zirene", justfriends:"true", twitter:"LoLZirene"}
 ];
 
 function loadPictures(index) {
@@ -91,6 +94,13 @@ function getTwitchIndex(twitchId) {
                 return {model:model[i],index:i};
             }
         }
+    } else if($(model[index]).hasClass("justfriend")) {
+        model = $("#memberJustFriends").find(".member");
+        for(var i = 0; i < model.length; i++){
+            if($(model[i]).attr("twitch-id") == twitchId) {
+                return {model:model[i],index:i};
+            }
+        }
     } else {
         model = $("#membersList").find(".member");
         for(var i = 0; i < model.length; i++){
@@ -151,16 +161,18 @@ function updateModelTwitch(info) {
         $(model.model).find(".twitchField").html("<a data-toggle='tooltip' data-placement='left' title='Uptime "+hours+":"+min+"' target='_blank' style='text-decoration:none;font-family:arial;color:white;font-weight:bold;' href='http://twitch.tv/"+members[index].twitchId+"'><img style='resize:both;height:20px;position:relative;top:0px;margin-right:2px;' src='./Media/Icons/twitch.png'>Live</a><span style='display:inline-block;height:10px;width:10px;border-radius:100%;background-color:red;margin-left:5px;'> </span> <span class='glyphicon openModal glyphicon-share'></span>");
         $(model.model).find(".twitchField").addClass("active");
         $(model.model).addClass("active");
-        if(!($(model.model).hasClass("friend"))) {
-            pushItToTop(model.index, "#membersList");
-        } else {
+        if(($(model.model).hasClass("friend"))) {
             pushItToTop(model.index, "#memberFriends");
+        } else if(($(model.model).hasClass("justfriend"))) {
+            pushItToTop(model.index, "#memberJustFriends");
+        } else {
+            pushItToTop(model.index, "#membersList");
         }
     }
     $(".openModal").click(function(event){
         openModal(event);
     });
-    $('[data-toggle="tooltip"]').tooltip(); 
+    $('[data-toggle="tooltip"]').tooltip();
 }
 
 function pushItToTop(index, classId) {
@@ -209,7 +221,7 @@ xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         var response = this.responseText.replace(/(\r\n\t|\n|\r\t)/gm,"");
         var obj = JSON.parse(response);
-        
+
         var mainClass = $("#twitter_"+username);
         mainClass.html("");
 
@@ -227,14 +239,14 @@ xmlhttp.onreadystatechange = function() {
     }
 }
 xmlhttp.open("GET",url,true);
-xmlhttp.send(); 
+xmlhttp.send();
 
 }
 
 function renderUserInfo() {
     $("#loading").hide();
     $("#tabs").removeClass("hide");
-    for(var i = 0; i < members.length; i++){ 
+    for(var i = 0; i < members.length; i++){
         var row = jQuery("<div>", {
           style:"width:280px;heigth:70px;margin-top:5px;",
           class:"member",
@@ -243,12 +255,16 @@ function renderUserInfo() {
           "twitter-id": members[i].twitter
         });
 
-        if(!members[i].friends) { 
-            row.appendTo("#membersList"); 
+        if(members[i].friends) {
+          row.appendTo("#memberFriends");
+          row.addClass("friend");
+
+        } else if(members[i].justfriends) {
+          row.appendTo("#memberJustFriends");
+          row.addClass("justfriend")
         } else {
-            row.appendTo("#memberFriends");
-            row.addClass("friend");
-        } 
+          row.appendTo("#membersList");
+        }
 
         var image = jQuery("<div>", {
                 style:"border-radius:5px;width:50px;height:50px;display:inline-block;background-image:url('"+members[i].image+"');background-size:cover;margin-left:5px;",
@@ -340,7 +356,7 @@ var url = "https://api.twitch.tv/kraken/streams/?channel="+membersString+"?m="+M
 
 xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        var obj = JSON.parse(this.responseText);   
+        var obj = JSON.parse(this.responseText);
         chrome.browserAction.setBadgeBackgroundColor({color: [150, 150, 150, 128]});
         chrome.browserAction.setBadgeText({text: ''+ obj.streams.length});
         console.log(obj.streams.length);
@@ -357,23 +373,23 @@ function testMultipleOnline(){
         streams:[
             {channel:{
                     name: members[0].twitchId
-                }  
+                }
             },
             {channel:{
                     name: members[15].twitchId
-                }  
+                }
             },
             {channel:{
                     name: members[2].twitchId
-                }  
-            }, 
+                }
+            },
             {channel:{
                     name: members[14].twitchId
-                }  
+                }
             },
             {channel:{
                     name: members[1].twitchId
-                }  
+                }
             }
         ]
     };
