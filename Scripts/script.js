@@ -1,30 +1,30 @@
 window.onload = function() {
-    showUserInfo();
+    loadMembers();
     //initializing tooltips
     $('[data-toggle="tooltip"]').tooltip();
 };
 
 var xmlhttp = new XMLHttpRequest();
 
-var members = [
-    {name:"Scarra", id:"UCan_L4XHfSbCKaTCcntyLTQ", twitchId:"scarra", twitter:"scarra"},
-    {name:"Pokimane", id:"UChXKjLEzAB1K7EZQey7Fm1Q", twitchId:"pokimane", twitter:"pokimanelol"},
-    {name:"Lilypichu", id:"UCvWU1K29wCZ8j1NsXsRrKnA", twitchId:"lilypichu", twitter:"lilypichu"},
-    {name:"Disguised Toast", id:"UCUT8RoNBTJvwW1iErP6-b-A", twitchId:"disguisedtoasths", twitter:"disguisedtoast"},
-    {name:"Fedmyster", id:"UCOmXyEquWIIo1uAj_2LN4UA", twitchId:"fedmyster", twitter:"fedmyster"},
-    {name:"Xell", id:"UCksmCymEjGvxXEkcRWR8wbQ", twitchId:"xell", twitter:"xelltweets"},
-    {name:"TheeMarkZ", id:"UCU74OVWGSmJqR1g6y-tgUHQ", twitchId:"theemarkz", twitter:"theemarkz"},
-    {name:"Based Yoona", id:"UC8GNFT4yPKeSOzPgYmmikuw", twitchId:"based_yoona", twitter:"basedyoona"},
-    {name:"Chris", id:null, twitchId:"chrischantor", image:"https://pbs.twimg.com/profile_images/925529875695378432/m1qkOYYA_400x400.jpg", twitter: "chrischanto"},
-    {name:"Pecca", id:"UCHErZgBloHNYX6Uu_dsBVxg", twitchId:"peccapecca", twitter:"peccapecca"},
-    {name:"Albert", id:"UCrDQW9kAElm707c5z6d5r7Q", twitchId: "sleightlymusical", twitter:"THEalbertchang"},
-    {name:"Kimi", id:"UCqssxU4UBzijbdTH3r5Losw", twitchId:"angelskimi", friends: "true", twitter: "AngelsKimi"},
-    {name:"Janet", id:"UCdH7fwkQ5RGVAMIAN2ufm4Q", twitchId:"xchocobars", friends: "true", twitter: "xChocoBars"},
-    {name:"Jamie", id:"UCGkquZAQRiSoWTrHufGKgeg", twitchId: "igumdrop", friends: "true", twitter: "iGumdrop_"},
-    {name:"Aria", id:"UCitxA9Sa_GxxGSqNJEWRbuA", twitchId:"ariasaki", friends:"true", twitter: "ariasaki"},
-    {name:"Fuslie", id:"UCujyjxsq5FZNVnQro51zKSQ", twitchId: "fuslie", friends: "true", twitter: "fuslie"},
-    {name:"Yellowpaco", id:"UC0WpDW_SigANjRWBI1USgYw", twitchId:"yellowpaco", friends: "true", twitter: "yellowpaco"}
-];
+var members;
+
+function loadMembers(){
+    var xhttp = new XMLHttpRequest();
+    var url = "https://exzerobots.com/offlineTV/DB/members.json?r="+Math.random();
+    xhttp.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200){
+            var model = JSON.parse(this.responseText);
+            setMembers(model);
+        }
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
+
+function setMembers(model){
+    members = model;
+    showUserInfo();
+}
 
 function loadPictures(index) {
 
@@ -115,7 +115,7 @@ function getIndex(info, channelId){
 function updateModel(info) {
     for(var i = 0; i < members.length; i++){
         var index = getIndex(info,members[i].id);
-        if(members[i].id) {
+        if(members[i].id != "null") {
             members[i].image = info.items[index].snippet.thumbnails.high.url;
             members[i].subCount = info.items[index].statistics.subscriberCount;
         }
@@ -243,7 +243,7 @@ function renderUserInfo() {
           "twitter-id": members[i].twitter
         });
 
-        if(!members[i].friends) { 
+        if(members[i].friends == "false") { 
             row.appendTo("#membersList"); 
         } else {
             row.appendTo("#memberFriends");

@@ -3,6 +3,14 @@ body {
 	color:white;
 	font-family:Arial;
 }
+body::-webkit-scrollbar {
+    width: 0.4em;
+    padding-left:10px;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius:5px;
+}
 #loading {
 	width:150px;
 	text-align:center;
